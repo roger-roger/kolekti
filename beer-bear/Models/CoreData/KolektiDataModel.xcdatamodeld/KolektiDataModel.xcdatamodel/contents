@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3400" systemVersion="13A603" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Bundle" representedClassName="Bundle" syncable="YES">
+        <attribute name="bundleID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="household" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Household" inverseName="bundles" inverseEntity="Household" syncable="YES"/>
+        <relationship name="widgets" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Widget" inverseName="bundle" inverseEntity="Widget" syncable="YES"/>
+    </entity>
+    <entity name="Household" representedClassName="Household" syncable="YES">
+        <attribute name="householdID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="bundles" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Bundle" inverseName="household" inverseEntity="Bundle" syncable="YES"/>
+    </entity>
+    <entity name="Widget" representedClassName="Widget" syncable="YES">
+        <attribute name="budget" optional="YES" attributeType="Integer 32" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="quantity" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="widgetID" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <relationship name="bundle" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Bundle" inverseName="widgets" inverseEntity="Bundle" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Household" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="Bundle" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="Widget" positionX="0" positionY="0" width="0" height="0"/>
+    </elements>
+</model>
