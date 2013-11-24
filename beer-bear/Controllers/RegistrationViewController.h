@@ -12,6 +12,7 @@
 
 @property (nonatomic, strong) IBOutlet UITextField *nameField;
 @property (nonatomic, strong) IBOutlet UITextField *householdField;
+@property (nonatomic, strong) IBOutlet UITextField *householdIdField;
 
 - (IBAction)start;
 

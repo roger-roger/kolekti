@@ -139,6 +139,18 @@
     }];
   }
   
+  if (indexPath.section == 0 && indexPath.row == 4) {
+    UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"helpPage"];
+    
+    MZFormSheetController *helpPage = [[MZFormSheetController alloc] initWithViewController:vc];
+    helpPage.shouldDismissOnBackgroundViewTap = YES;
+    
+    
+    [self presentFormSheetController:helpPage animated:YES completionHandler:^(MZFormSheetController *formSheetController) {
+      [self.frostedViewController hideMenuViewController];
+    }];
+  }
+  
   if (indexPath.section == 0 && indexPath.row == 1) {
     UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"categoryManager"];
     navigationController.viewControllers = @[vc];
@@ -177,7 +189,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)sectionIndex
 {
   if (sectionIndex == 0) {
-    return 4;
+    return 5;
   } else {
     return [Household current].users.count;
   }
@@ -195,7 +207,7 @@
   }
   
   if (indexPath.section == 0) {
-    NSArray *titles = @[@"Stores & Widgets", @"Modify Stores", @"Switch Household", @"Join Household"];
+    NSArray *titles = @[@"Stores & Widgets", @"Modify Stores", @"Switch Household", @"Join Household",  @"Help"];
     cell.textLabel.text = titles[indexPath.row];
   } else {
 //    NSArray *titles = @[@"John Appleseed", @"John Doe", @"Alfred E. Neuman", @"Leroy Jenkins", @"Peter Parker"];

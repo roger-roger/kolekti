@@ -16,6 +16,7 @@
 
 @property (nonatomic, strong) Household *household;
 @property (nonatomic, strong) User *user;
+@property bool skipHouseholdCreation;
 @end
 
 @implementation RegistrationViewController
@@ -23,6 +24,7 @@
 - (void)viewDidLoad
 {
   [super viewDidLoad];
+  self.skipHouseholdCreation = false;
 	// Do any additional setup after loading the view.
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(householdSaved:) name:@"householdSaved" object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userSaved:) name:@"userSaved" object:nil];
@@ -33,17 +35,30 @@
 - (IBAction)start
 {
   
+  if (self.householdIdField.text) {
+    self.skipHouseholdCreation = true;
+    [self householdSaved:nil];
+    self.household = [Household new];
+    self.household.householdID = [NSNumber numberWithInt: [self.householdIdField.text integerValue]];
+    NSUserDefaults *preferences = [NSUserDefaults standardUserDefaults];
+    [preferences setObject:self.household.householdID forKey:@"household_id"];
+    
+  } else {
+    self.household = [Household new];
+    self.household.name = self.householdField.text;
+    [self.household save];
+  }
   
-  self.household = [Household new];
-  self.household.name = self.householdField.text;
-  [self.household save];
 
 }
 
 -(void)householdSaved:(NSNotification *)notification
 {
-  NSUserDefaults *preferences = [NSUserDefaults standardUserDefaults];
-  self.household.householdID = [[NSNumber alloc] initWithInt:[preferences integerForKey:@"household_id"]];
+  if (!self.skipHouseholdCreation) {
+    NSUserDefaults *preferences = [NSUserDefaults standardUserDefaults];
+    self.household.householdID = [[NSNumber alloc] initWithInt:[preferences integerForKey:@"household_id"]];
+  }
+  
   self.user = [User new];
   self.user.name = self.nameField.text;
   [self.user save];
@@ -59,7 +74,7 @@
 -(void)goAway:(NSNotification *)notification
 {
   [self dismissFormSheetControllerAnimated:YES completionHandler:^(MZFormSheetController *formSheetController) {
-    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshBundles" object:self];
   }];
 }
 
